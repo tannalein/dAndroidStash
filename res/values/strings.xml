@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">dAndroidStash</string>
+    <string name="hello">Hello World, DeviantartUploaderActivity!</string>
+    <string name="userIcon">UserIcon</string>
+    <string name="userName">User</string>
+    <string name="uploadButton">Upload button</string>
+    <string name="logoutButton">logoutButton</string>
+    <string name="availableSpace">Available Space</string>
+    <string name="totalSpace">New Text</string>
+    <string name="selected">selected</string>
+    <string name="title">Title:</string>
+    <string name="artist_comments">Artist\'s comments</string>
+    <string name="keywords">Keywords:</string>
+    <string name="original_url">original URL:</string>
+    <string name="category">Category:</string>
+    <string name="submit">Submit</string>
+</resources>

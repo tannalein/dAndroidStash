@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:background="@drawable/background">
+
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                    android:id="@+id/descriptionLinearLayout">
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:layout_gravity="center" android:id="@+id/top" android:layout_margin="10dp">
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:id="@+id/userIconImageView" android:layout_gravity="left|center_vertical"
+                       android:focusableInTouchMode="true" android:contentDescription="@string/userIcon"
+                       android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+                       android:baselineAlignBottom="true"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/userName" android:id="@+id/userNameTextView" android:layout_gravity="center"
+                      android:layout_toRightOf="@+id/userIconImageView" android:layout_centerInParent="true"/>
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:id="@+id/imageButtonUpload" android:layout_gravity="center_vertical|right"
+                         android:background="@drawable/cloud" android:contentDescription="@string/uploadButton"
+                         android:clickable="true" android:layout_alignParentTop="false"
+                         android:layout_alignParentRight="true" android:layout_alignWithParentIfMissing="false"
+                         android:baselineAlignBottom="false"/>
+        </RelativeLayout>
+        <ImageView android:id="@+id/upload_imageview" android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerInParent="true" android:contentDescription="@string/selected"
+                   android:background="@drawable/stash_empty_grey" android:layout_below="@+id/top"
+                   android:focusableInTouchMode="false"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:id="@+id/LinearButtons"
+                android:layout_toRightOf="@+id/upload_imageview" android:layout_below="@+id/top"
+                android:layout_alignBottom="@+id/upload_imageview" android:layout_alignTop="@+id/upload_imageview"
+                android:layout_alignParentRight="false" android:layout_alignWithParentIfMissing="false"
+                android:layout_marginRight="30dp" android:layout_marginTop="30dp">
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/uploadImageButton"
+                    android:background="@drawable/image"
+                    android:layout_alignLeft="@+id/cameraUploadImageButton" android:layout_alignParentTop="false"
+                    android:layout_centerInParent="true" android:layout_alignParentRight="false"
+                    android:layout_alignParentLeft="false" android:layout_alignWithParentIfMissing="false"
+                    android:layout_below="@+id/cameraUploadImageButton" android:layout_gravity="center" android:clickable="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4" android:layout_gravity="right|center_vertical"/>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cameraUploadImageButton"
+                    android:background="@drawable/upload_photo_2" android:clickable="true"
+                    android:layout_toRightOf="@+id/upload_imageview" android:layout_alignTop="@+id/upload_imageview"
+                    android:layout_centerInParent="true" android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="111dp" android:id="@+id/descriptionLinearLayout"
+                android:focusableInTouchMode="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp" android:layout_alignParentTop="true" android:layout_marginTop="143dp"
+                android:layout_above="@+id/bottom">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title:"
+                    android:id="@+id/textView"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="false"/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="title"
+                    android:id="@+id/editTextTitle"
+                    android:textSize="10dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Artist's comments"
+                    android:id="@+id/textView1"
+                    android:layout_alignLeft="@+id/textView" android:layout_above="@+id/editTextComments"
+                    android:layout_alignParentLeft="true" android:layout_alignParentTop="false"/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="comments"
+                    android:id="@+id/editTextComments"
+                    android:textSize="10dp" android:layout_alignLeft="@+id/textView"
+                    android:layout_above="@+id/textView2" android:layout_alignParentLeft="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Keywords: "
+                    android:id="@+id/textView2"
+                    android:singleLine="false"
+                    android:layout_alignLeft="@+id/textView" android:layout_above="@+id/editTextKeywords"
+                    android:layout_alignParentLeft="true"/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="keywords"
+                    android:id="@+id/editTextKeywords"
+                    android:layout_alignLeft="@+id/textView" android:layout_above="@+id/textView3"
+                    android:textSize="10dp" android:layout_alignParentLeft="true" android:maxLines="1"
+                    android:maxHeight="15dp" android:minHeight="10dp" android:height="12dp"
+                    android:focusableInTouchMode="true" android:focusable="true" android:enabled="true"
+                    android:ellipsize="start" android:editable="true" android:layout_gravity="center"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="original URL: "
+                    android:id="@+id/textView3"
+                    android:layout_alignLeft="@+id/textView" android:layout_above="@+id/editTextOrigUrl"
+                    android:layout_alignParentLeft="true"/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="original url"
+                    android:id="@+id/editTextOrigUrl"
+                    android:layout_alignLeft="@+id/textView" android:layout_alignParentBottom="true"
+                    android:textSize="10dp" android:layout_alignParentLeft="true" android:editable="false"
+                    android:enabled="false" android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:layout_gravity="bottom|left"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:id="@+id/buttonSubmit" android:layout_gravity="right"/>
+        </LinearLayout>
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_gravity="bottom" android:gravity="bottom" android:id="@+id/bottom"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/availableSpace" android:id="@+id/availableSpaceTextView"
+                      android:layout_alignParentLeft="true"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Total space: " android:id="@+id/totalSpaceTextView" android:gravity="right"
+                      android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

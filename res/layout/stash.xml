@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/background">
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:layout_gravity="center" android:id="@+id/top">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userIconImageView"
+                    android:layout_gravity="left|center_vertical"
+                    android:focusableInTouchMode="true"
+                    android:contentDescription="@string/userIcon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:baselineAlignBottom="true" />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/userName"
+                    android:id="@+id/userNameTextView"
+                    android:layout_gravity="center"
+                    android:layout_toRightOf="@+id/userIconImageView"
+                    android:layout_centerInParent="true"/>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageButtonUpload" android:layout_gravity="center_vertical|right" android:background="@drawable/cloud_upload"
+                    android:contentDescription="@string/uploadButton" android:clickable="true"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentRight="true" android:layout_alignWithParentIfMissing="false"
+                    android:baselineAlignBottom="false"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:layout_below="@+id/top" android:id="@+id/linearLayout">
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                <LinearLayout
+                        android:id="@+id/mygallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        />
+            </HorizontalScrollView>
+        </LinearLayout>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/singleImageView" android:layout_centerHorizontal="true"
+                android:layout_below="@+id/linearLayout"/>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_gravity="bottom" android:gravity="bottom"
+                android:id="@+id/bottom" android:layout_alignParentBottom="true" android:layout_above="@+id/gallery">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/availableSpace"
+                    android:id="@+id/availableSpaceTextView" android:layout_alignParentLeft="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total space: "
+                    android:id="@+id/totalSpaceTextView" android:gravity="right" android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
