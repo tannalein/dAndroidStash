@@ -42,7 +42,7 @@ public class GalleryActivity extends Activity implements ApplicationListener {
         ((StashApplication) this.getApplication()).registerListener(this);
 
         // Reference the Gallery view
-        myGallery = (LinearLayout)findViewById(R.id.mygallery);
+        myGallery = (LinearLayout) findViewById(R.id.mygallery);
         mainImageView = (ImageView) findViewById(R.id.singleImageView);
         final GalleryActivity activity = this;
 
@@ -144,8 +144,8 @@ public class GalleryActivity extends Activity implements ApplicationListener {
                             if (key.equals("files")) {
                                 JSONObject files = metadata.getJSONObject(key);
                                 Iterator fit = files.keys();
-                                while(fit.hasNext()) {
-                                    String fileKey = (String)fit.next();
+                                while (fit.hasNext()) {
+                                    String fileKey = (String) fit.next();
                                     stashObjectMetadata.put(key + "_" + fileKey, files.getString(fileKey));
                                 }
                             } else {
@@ -199,7 +199,7 @@ public class GalleryActivity extends Activity implements ApplicationListener {
 
         final List<ItemId> ids = new ArrayList<ItemId>();
 
-        for(StashObject stashObject: stashContent.getStashObjects()){
+        for (StashObject stashObject : stashContent.getStashObjects()) {
             ItemId id = new ItemId();
             Response response = new Response();
 
@@ -213,10 +213,10 @@ public class GalleryActivity extends Activity implements ApplicationListener {
 //                    response.setFolderId(stashObject.getMetadata().get("folderid"));
 //                    id.setResponse(response);
 //                    ids.add(id);
-                      break;
+                    break;
                 case SUBMISSION:
                     id.setType(type);
-                    id.setUrl(stashObject.getMetadata().get("files_fullview"));
+                    id.setUrl(stashObject.getMetadata().get("files_300W"));
                     response.setFolderId(stashObject.getMetadata().get("folderid"));
                     response.setStashId(stashObject.getMetadata().get("stashid"));
                     id.setResponse(response);
@@ -225,23 +225,23 @@ public class GalleryActivity extends Activity implements ApplicationListener {
             }
         }
 
-        for (final ItemId itemId: ids){
+        for (final ItemId itemId : ids) {
 //            try {
-                // TODO: progress bar
-                Toast.makeText(myGallery.getContext(), "Retrieving images, please wait", Toast.LENGTH_LONG).show();
+            // TODO: progress bar
+            Toast.makeText(myGallery.getContext(), "Retrieving images, please wait", Toast.LENGTH_LONG).show();
 
-                //Bitmap bitmap = null;
-                View view = this.insertPhoto(itemId.getUrl());
-                itemId.setId(i++);
-                view.setTag(itemId);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "image selected: " + itemId.getUrl(), Toast.LENGTH_LONG).show();
-                        setSelectedImage(itemId.getId());
-                    }
-                });
-                myGallery.addView(view);
+            //Bitmap bitmap = null;
+            View view = this.insertPhoto(itemId.getUrl());
+            itemId.setId(i++);
+            view.setTag(itemId);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(), "image selected: " + itemId.getUrl(), Toast.LENGTH_LONG).show();
+                    setSelectedImage(itemId.getId());
+                }
+            });
+            myGallery.addView(view);
 
 
 //            } catch (JSONException e) {
@@ -255,30 +255,8 @@ public class GalleryActivity extends Activity implements ApplicationListener {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public View insertPhoto(String path){
-  //      Bitmap bm = decodeSampledBitmapFromUri(path, 220, 220);
-
-        LinearLayout layout = new LinearLayout(getApplicationContext());
-        layout.setLayoutParams(new LayoutParams(250, 250));
-        layout.setGravity(Gravity.CENTER);
-
-        ImageView imageView = new ImageView(getApplicationContext());
-        imageView.setLayoutParams(new LayoutParams(220, 220));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        layout.addView(imageView);
-
-        try {
-            RetrieveImage.getBitmap(path, imageView);
-        } catch (JSONException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        //    imageView.setImageBitmap(bm);
-
-        return layout;
-    }
-
-    public View insertPhoto(Bitmap bm){
+    public View insertPhoto(String path) {
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.stash_empty_grey);//decodeSampledBitmapFromUri(path, 220, 220);
 
         LinearLayout layout = new LinearLayout(getApplicationContext());
         layout.setLayoutParams(new LayoutParams(250, 250));
@@ -292,51 +270,74 @@ public class GalleryActivity extends Activity implements ApplicationListener {
 
         imageView.setImageBitmap(bm);
 
+        try {
+            RetrieveImage.getBitmap(path, imageView);
+        } catch (JSONException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
         return layout;
     }
 
-    public Bitmap decodeSampledBitmapFromUri(String path, int reqWidth, int reqHeight) {
-        Bitmap bm = null;
+//    public View insertPhoto(Bitmap bm){
+//
+//        LinearLayout layout = new LinearLayout(getApplicationContext());
+//        layout.setLayoutParams(new LayoutParams(250, 250));
+//        layout.setGravity(Gravity.CENTER);
+//
+//        ImageView imageView = new ImageView(getApplicationContext());
+//        imageView.setLayoutParams(new LayoutParams(220, 220));
+//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//
+//        layout.addView(imageView);
+//
+//        imageView.setImageBitmap(bm);
+//
+//        return layout;
+//    }
 
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
+//    public Bitmap decodeSampledBitmapFromUri(String path, int reqWidth, int reqHeight) {
+//        Bitmap bm = null;
+//
+//        // First decode with inJustDecodeBounds=true to check dimensions
+//        final BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//        BitmapFactory.decodeFile(path, options);
+//
+//        // Calculate inSampleSize
+//        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+//
+//        // Decode bitmap with inSampleSize set
+//        options.inJustDecodeBounds = false;
+//        bm = BitmapFactory.decodeFile(path, options);
+//
+//        return bm;
+//    }
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        bm = BitmapFactory.decodeFile(path, options);
-
-        return bm;
-    }
-
-    public int calculateInSampleSize(
-
-        BitmapFactory.Options options, int reqWidth, int reqHeight) {
-
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            if (width > height) {
-                inSampleSize = Math.round((float)height / (float)reqHeight);
-            } else {
-                inSampleSize = Math.round((float)width / (float)reqWidth);
-            }
-        }
-
-        return inSampleSize;
-    }
+//    public int calculateInSampleSize(
+//
+//        BitmapFactory.Options options, int reqWidth, int reqHeight) {
+//
+//        // Raw height and width of image
+//        final int height = options.outHeight;
+//        final int width = options.outWidth;
+//        int inSampleSize = 1;
+//
+//        if (height > reqHeight || width > reqWidth) {
+//            if (width > height) {
+//                inSampleSize = Math.round((float)height / (float)reqHeight);
+//            } else {
+//                inSampleSize = Math.round((float)width / (float)reqWidth);
+//            }
+//        }
+//
+//        return inSampleSize;
+//    }
 
     public void setSelectedImage(int selectedImagePosition) {
 
-        LinearLayout child = (LinearLayout)myGallery.getChildAt(selectedImagePosition);
-        ImageView imageChild = (ImageView)child.getChildAt(0);
+        LinearLayout child = (LinearLayout) myGallery.getChildAt(selectedImagePosition);
+        ImageView imageChild = (ImageView) child.getChildAt(0);
 
         mainImageView.setImageDrawable(imageChild.getDrawable());
         mainImageView.setTag(child.getTag());

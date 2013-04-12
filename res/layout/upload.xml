@@ -44,7 +44,8 @@
                     android:layout_alignLeft="@+id/cameraUploadImageButton" android:layout_alignParentTop="false"
                     android:layout_centerInParent="true" android:layout_alignParentRight="false"
                     android:layout_alignParentLeft="false" android:layout_alignWithParentIfMissing="false"
-                    android:layout_below="@+id/cameraUploadImageButton" android:layout_gravity="center" android:clickable="true"/>
+                    android:layout_below="@+id/cameraUploadImageButton" android:layout_gravity="center"
+                    android:clickable="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,8 +112,8 @@
                     android:layout_alignLeft="@+id/textView" android:layout_above="@+id/textView3"
                     android:textSize="10dp" android:layout_alignParentLeft="true" android:maxLines="1"
                     android:maxHeight="15dp" android:minHeight="10dp" android:height="12dp"
-                    android:focusableInTouchMode="true" android:focusable="true" android:enabled="true"
-                    android:ellipsize="start" android:editable="true" android:layout_gravity="center"/>
+                    android:focusableInTouchMode="false" android:focusable="false" android:enabled="false"
+                    android:editable="false" android:layout_gravity="center"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

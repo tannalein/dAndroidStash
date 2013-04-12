@@ -42,7 +42,7 @@ public class UploadActivity extends Activity implements ApplicationListener {
     protected String path;
     protected boolean taken;
 
-    protected static final String PHOTO_TAKEN	= "photo_taken";
+    protected static final String PHOTO_TAKEN = "photo_taken";
     protected static final int REQ_CODE_PICK_IMAGE = 1;
     private static final int REQ_CODE_CAPTURE_IMAGE = 2;
 
@@ -53,24 +53,25 @@ public class UploadActivity extends Activity implements ApplicationListener {
         setContentView(R.layout.upload);
 
         path = Environment.getExternalStorageDirectory() + "/uploadImage.jpg";
-        mainImage = ( ImageView ) findViewById( R.id.upload_imageview );
-        cameraUploadButton = (ImageButton) findViewById( R.id.cameraUploadImageButton );
+        mainImage = (ImageView) findViewById(R.id.upload_imageview);
+        cameraUploadButton = (ImageButton) findViewById(R.id.cameraUploadImageButton);
         imageUploadButton = (ImageButton) findViewById(R.id.uploadImageButton);
         submitButton = (Button) findViewById(R.id.buttonSubmit);
+        submitButton.setEnabled(Boolean.FALSE);
 
         TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
         User user = ((StashApplication) this.getApplication()).getUser();
         Space space = ((StashApplication) this.getApplication()).getSpace();
         userNameTextView.setText(user.getSymbol() + user.getUsername());
 
-        cameraUploadButton.setOnClickListener( new View.OnClickListener() {
+        cameraUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startCameraActivity();
             }
         });
 
-        imageUploadButton.setOnClickListener( new View.OnClickListener() {
+        imageUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startGalleryActivity();
@@ -84,11 +85,17 @@ public class UploadActivity extends Activity implements ApplicationListener {
                 RequestParams params = new RequestParams();
                 params.put("access_token", ((StashApplication) activity.getApplication()).getToken().getAccessToken());
                 params.put("title", (((EditText) findViewById(R.id.editTextTitle)).getText().toString()));
+                params.put("artist_comments", (((EditText) findViewById(R.id.editTextComments)).getText().toString()));
+                params.put("keywords", (((EditText) findViewById(R.id.editTextKeywords)).getText().toString()));
+                params.put("original_url", (((EditText) findViewById(R.id.editTextOrigUrl)).getText().toString()));
 
                 try {
                     params.put("upload", myFile);
-                } catch(FileNotFoundException e) {}
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
 
+                submitButton.setEnabled(Boolean.FALSE);
                 Toast.makeText(getApplicationContext(), "Uploading", Toast.LENGTH_LONG).show();
 
                 ApiClient.post(Utils.DEVIANTART_STASH_SUBMIT, params, new JsonHttpResponseHandler() {
@@ -96,13 +103,35 @@ public class UploadActivity extends Activity implements ApplicationListener {
                     public void onSuccess(JSONObject json) {
                         // Get space
                         try {
-                            if (json.getString("status").equals("success")){
+                            if (json.getString("status").equals("success")) {
                                 Response response = new Response();
                                 response.setStashId(json.getString("stashid"));
                                 response.setFolder(json.getString("folder"));
                                 response.setFolderId(json.getString("folderid"));
 
                                 Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_LONG).show();
+
+                                // get new free space info
+                                RequestParams params = new RequestParams();
+                                params.put("access_token", ((StashApplication) activity.getApplication()).getToken().getAccessToken());
+
+                                ApiClient.post(Utils.DEVIANTART_STASH_SPACE, params, new JsonHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(JSONObject json) {
+                                        // Get space
+                                        try {
+                                            ((StashApplication) activity.getApplication()).setSpace(new Space(json));
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable throwable, String s) {
+                                        super.onFailure(throwable, s);    //To change body of overridden methods use File | Settings | File Templates.
+                                    }
+                                });
 
                                 //Starting item Intent
                                 Intent itemScreen = new Intent(getApplicationContext(), ItemActivity.class);
@@ -111,7 +140,7 @@ public class UploadActivity extends Activity implements ApplicationListener {
                                 // starting item  activity
                                 startActivity(itemScreen);
 
-                            }   else {
+                            } else {
                                 Toast.makeText(getApplicationContext(), "Upload failed", Toast.LENGTH_LONG).show();
                             }
 
@@ -164,9 +193,8 @@ public class UploadActivity extends Activity implements ApplicationListener {
         });
     }
 
-    protected void startCameraActivity()
-    {
-        File file = new File( path );
+    protected void startCameraActivity() {
+        File file = new File(path);
         Uri outputFileUri = Uri.fromFile(file);
 
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -175,21 +203,19 @@ public class UploadActivity extends Activity implements ApplicationListener {
         startActivityForResult(intent, REQ_CODE_CAPTURE_IMAGE);
     }
 
-    protected void startGalleryActivity()
-    {
+    protected void startGalleryActivity() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         intent.setType("image/*");
 
-        startActivityForResult( intent, REQ_CODE_PICK_IMAGE );
+        startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        switch(requestCode) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
             case REQ_CODE_PICK_IMAGE:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -202,6 +228,7 @@ public class UploadActivity extends Activity implements ApplicationListener {
                     cursor.close();
 
                     onPhotoTaken();
+                    submitButton.setEnabled(Boolean.TRUE);
                 }
                 break;
 
@@ -211,6 +238,7 @@ public class UploadActivity extends Activity implements ApplicationListener {
                     Toast.makeText(this, "Image saved to:\n" +
                             path, Toast.LENGTH_LONG).show();
                     onPhotoTaken();
+                    submitButton.setEnabled(Boolean.TRUE);
                 } else if (resultCode == RESULT_CANCELED) {
                     // User cancelled the image capture
                     Toast.makeText(this, "Image upload canceled", Toast.LENGTH_LONG).show();
@@ -222,28 +250,27 @@ public class UploadActivity extends Activity implements ApplicationListener {
         }
     }
 
-    protected void onPhotoTaken()
-    {
+    protected void onPhotoTaken() {
         taken = true;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
 
-        Bitmap bitmap = BitmapFactory.decodeFile( path, options );
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
 
         mainImage.setImageBitmap(bitmap);
     }
 
     @Override
-    protected void onRestoreInstanceState( Bundle savedInstanceState){
-        if( savedInstanceState.getBoolean( UploadActivity.PHOTO_TAKEN ) ) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState.getBoolean(UploadActivity.PHOTO_TAKEN)) {
             onPhotoTaken();
         }
     }
 
     @Override
-    protected void onSaveInstanceState( Bundle outState ) {
-        outState.putBoolean( UploadActivity.PHOTO_TAKEN, taken );
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(UploadActivity.PHOTO_TAKEN, taken);
     }
 
     @Override
@@ -253,7 +280,11 @@ public class UploadActivity extends Activity implements ApplicationListener {
 
     @Override
     public void onSpaceChange(Space space) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        TextView availableSpaceTextView = (TextView) findViewById(R.id.availableSpaceTextView);
+        availableSpaceTextView.setText("Available space: " + space.getAvailableSpace());
+
+        TextView totalSpaceTextView = (TextView) findViewById(R.id.totalSpaceTextView);
+        totalSpaceTextView.setText("Total space: " + space.getTotalSpace());
     }
 
     @Override

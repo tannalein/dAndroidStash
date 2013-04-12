@@ -3,13 +3,9 @@ package com.mystictreehouse.dAndroidStash.tasks;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BinaryHttpResponseHandler;
-import com.mystictreehouse.dAndroidStash.activity.GalleryActivity;
-import com.mystictreehouse.dAndroidStash.model.ItemId;
 import org.json.JSONException;
 
 /**
@@ -20,12 +16,11 @@ import org.json.JSONException;
  * To change this template use File | Settings | File Templates.
  */
 public class RetrieveImage {
-    static int i = 0;
 
     public static void getBitmap(final String url, final ImageView imageView) throws JSONException {
         AsyncHttpClient client = new AsyncHttpClient();
 
-        String[] allowedTypes = new String[] { "image/png", "image/jpg", "image/gif" };
+        String[] allowedTypes = new String[]{"image/png", "image/jpg", "image/jpeg", "image/gif", "image/*"};
         final Bitmap[] bitmap = new Bitmap[1];
 
         client.get(url, new BinaryHttpResponseHandler(allowedTypes) {
